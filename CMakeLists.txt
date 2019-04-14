@@ -18,6 +18,7 @@ list(APPEND ALL_LIBS "")
 include_directories(/usr/local/include)
 link_directories(/usr/local/lib)
 
+# FIXME: I don't like this, needs to go /usr/local
 if (NOT APPLE)
     set(msgpack_DIR $ENV{HOME}/.local/lib/cmake/msgpack)
     include_directories($ENV{HOME}/.local/include)
@@ -61,26 +62,26 @@ elseif(UNIX)
 endif()
 
 # Get zlib -----------------------------------------------------
-find_package(ZLIB)
-if(ZLIB_FOUND)
-    message(STATUS ">> zlib Found: ${ZLIB_VERSION_STRING}")
-    message(STATUS ">> zlib Found: ${ZLIB_LIBRARIES}")
-    list(APPEND ALL_LIBS ${ZLIB_LIBRARIES})
-else()
-    message(WARNING "\n<<--- Could not find zlib --->>\n")
-endif()
+# find_package(ZLIB)
+# if(ZLIB_FOUND)
+#     message(STATUS ">> zlib Found: ${ZLIB_VERSION_STRING}")
+#     message(STATUS ">> zlib Found: ${ZLIB_LIBRARIES}")
+#     list(APPEND ALL_LIBS ${ZLIB_LIBRARIES})
+# else()
+#     message(WARNING "\n<<--- Could not find zlib --->>\n")
+# endif()
 
 # Threads ---------------------------------------------------------
-find_package(Threads REQUIRED)
-if(Threads_FOUND)
-    message(STATUS ">> Threads found")
-    if(CMAKE_USE_PTHREADS_INIT)
-        message(STATUS " -> Using pthreads")
-    endif()
-    list(APPEND ALL_LIBS ${CMAKE_THREAD_LIBS_INIT})
-else()
-    message(WARNING "*** Could not find Threads ***")
-endif()
+# find_package(Threads REQUIRED)
+# if(Threads_FOUND)
+#     message(STATUS ">> Threads found")
+#     if(CMAKE_USE_PTHREADS_INIT)
+#         message(STATUS " -> Using pthreads")
+#     endif()
+#     list(APPEND ALL_LIBS ${CMAKE_THREAD_LIBS_INIT})
+# else()
+#     message(WARNING "*** Could not find Threads ***")
+# endif()
 
 # ZeroMQ ----------------------------------------------------------
 pkg_check_modules(libzmq REQUIRED libzmq)
@@ -101,12 +102,12 @@ else()
     message(WARNING "*** Could not find ZeroMQ ***")
 endif()
 
-# Build Gecko library ----------------------------------------------
+#  Gecko library ----------------------------------------------
 # file(GLOB SOURCES src/*.cpp)
 # include_directories(src)
 # add_library(${PROJECT_NAME} SHARED ${SOURCES})
 # target_link_libraries(${PROJECT_NAME} ${ALL_LIBS})
-# list(APPEND ALL_LIBS ${PROJECT_NAME})
+list(APPEND ALL_LIBS gecko)
 
 # Package Generator ------------------
 if(APPLE)
