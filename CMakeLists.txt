@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10.0)
-project(gecko)
+project(gecko-msgs)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -102,11 +102,11 @@ else()
 endif()
 
 # Build Gecko library ----------------------------------------------
-file(GLOB SOURCES src/*.cpp)
-include_directories(src)
-add_library(${PROJECT_NAME} SHARED ${SOURCES})
-target_link_libraries(${PROJECT_NAME} ${ALL_LIBS})
-list(APPEND ALL_LIBS ${PROJECT_NAME})
+# file(GLOB SOURCES src/*.cpp)
+# include_directories(src)
+# add_library(${PROJECT_NAME} SHARED ${SOURCES})
+# target_link_libraries(${PROJECT_NAME} ${ALL_LIBS})
+# list(APPEND ALL_LIBS ${PROJECT_NAME})
 
 # Package Generator ------------------
 if(APPLE)
@@ -152,20 +152,20 @@ include(CPack)
 
 
 # Tests --------------------------------------------------------------
-add_subdirectory(tests)
+# add_subdirectory(tests)
 add_subdirectory(gtests)
 add_subdirectory(msgpack)
-add_subdirectory(tools)
+# add_subdirectory(tools)
 
 # Install ----------
 # You can redefine at build time:
 #   cmake .. -DCMAKE_INSTALL_PREFIX=/home/kevin/.local
 # To create debian package, run: make package
 #
-install(TARGETS ${PROJECT_NAME} DESTINATION lib)
+# install(TARGETS ${PROJECT_NAME} DESTINATION lib)
 
-file(GLOB HEADERS src/gecko/*.hpp)
-install(FILES ${HEADERS} DESTINATION include/gecko)
+# file(GLOB HEADERS src/gecko/*.hpp)
+# install(FILES ${HEADERS} DESTINATION include/gecko)
 file(GLOB MPHEADERS msgpack/*.hpp)
 install(FILES ${MPHEADERS} DESTINATION include/gecko/msgpack)
-install(FILES zmq/zmq.hpp zmq/zmq_addon.hpp DESTINATION include/gecko/zmq)
+# install(FILES zmq/zmq.hpp zmq/zmq_addon.hpp DESTINATION include/gecko/zmq)
