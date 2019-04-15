@@ -15,10 +15,11 @@ message(STATUS "-------------------------------------")
 list(APPEND ALL_LIBS "")
 
 # Add local -----------------------------------------------------
-include_directories(/usr/local/include)
-link_directories(/usr/local/lib)
+# include_directories(/usr/local/include)
+# link_directories(/usr/local/lib)
 
-# FIXME: I don't like this, needs to go /usr/local
+# FIXME: I don't like this, needs to go /usr/local ... but I compile my own
+# msgpack, so I do I do this safely?
 if (NOT APPLE)
     set(msgpack_DIR $ENV{HOME}/.local/lib/cmake/msgpack)
     include_directories($ENV{HOME}/.local/include)
@@ -109,6 +110,11 @@ endif()
 # target_link_libraries(${PROJECT_NAME} ${ALL_LIBS})
 list(APPEND ALL_LIBS gecko)
 
+# Tests --------------------------------------------------------------
+add_subdirectory(gtests)
+add_subdirectory(msgpack)
+# add_subdirectory(tools)
+
 # Package Generator ------------------
 if(APPLE)
     set(CPACK_GENERATOR "DMG")
@@ -127,13 +133,15 @@ else()
             set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "i386")
         elseif(${CMAKE_SYSTEM_PROCESSOR} MATCHES "x86_64")
             set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
+        elseif(${CMAKE_SYSTEM_PROCESSOR} MATCHES "armhf")  # RPi
+            set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "armhf")
         endif()
         set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Me <support@example.com>")
         set(CPACK_DEBIAN_PACKAGE_SECTION "devel")
     endif()
     # set(CPACK_SOURCE_GENERATOR "TGZ")
 endif()
-SET(CPACK_PACKAGING_INSTALL_PREFIX "/home/kevin/.local")
+SET(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
 set(CPACK_PACKAGE_VERSION_MINOR "2")
 set(CPACK_PACKAGE_VERSION_PATCH "0")
@@ -150,13 +158,6 @@ set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/readme.md")
 set(CPACK_SOURCE_IGNORE_FILES "${CMAKE_SOURCE_DIR}/build/;${CMAKE_SOURCE_DIR}/.git/")
 
 include(CPack)
-
-
-# Tests --------------------------------------------------------------
-# add_subdirectory(tests)
-add_subdirectory(gtests)
-add_subdirectory(msgpack)
-# add_subdirectory(tools)
 
 # Install ----------
 # You can redefine at build time:
