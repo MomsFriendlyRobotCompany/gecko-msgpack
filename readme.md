@@ -4,11 +4,19 @@ This provides a serialization mechanism for `gecko` messages. It is not part of 
 because I wanted to be modular and able to switch out to a different serialization
 package if I needed to.
 
-## Setup
+- [Msgpack](https://msgpack.org/index.html) for serialization of messages
+
+## Install
 
 The version of `msgpack` that comes with linux is old. Download and install a current version.
 
-## Install
+## macOS
+
+```
+brew install msgpack
+```
+
+## Linux
 
 This will install the message formats into `gecko` in `/usr/local`. 
 
