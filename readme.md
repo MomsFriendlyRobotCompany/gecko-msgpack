@@ -109,6 +109,15 @@ int main(){
 }
 ```
 
+# To Do
+
+- Build message specific tools
+    - echo
+    - bag
+
+- Add more messages
+- Document how to add new messages
+
 # MIT License
 
 **Copyright (c) 2019 Kevin J. Walchko**
