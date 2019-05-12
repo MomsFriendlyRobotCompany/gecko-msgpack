@@ -70,21 +70,21 @@ TEST(msgpack, wrench_t) {
 }
 
 TEST(msgpack, twist_st) {
-    vec_t v(1,1,1);
-    twist_st a(v,v), b(v,v), c;
+    vec_t v(1, 1, 1);
+    twist_st a(v, v), b(v, v), c;
     ASSERT_EQ(a,b);
     ASSERT_FALSE(a == c);
 
     MsgPack<twist_st> buffer;
     zmq::message_t msg = buffer.pack(a);
     c = buffer.unpack(msg);
-    ASSERT_EQ(a,c);
-    ASSERT_EQ(a.timestamp,c.timestamp);
+    ASSERT_EQ(a, c);
+    ASSERT_EQ(a.timestamp, c.timestamp);
 }
 
 TEST(msgpack, pose_st) {
-    vec_t v(1,1,1);
-    quaternion_t q(1,0,0,0);
+    vec_t v(1, 1, 1);
+    quaternion_t q(1, 0, 0, 0);
     pose_st a(v,q), b(v,q), c;
     ASSERT_EQ(a,b);
     ASSERT_FALSE(a == c);
@@ -92,8 +92,8 @@ TEST(msgpack, pose_st) {
     MsgPack<pose_st> buffer;
     zmq::message_t msg = buffer.pack(a);
     c = buffer.unpack(msg);
-    ASSERT_EQ(a,c);
-    ASSERT_EQ(a.timestamp,c.timestamp);
+    ASSERT_EQ(a, c);
+    ASSERT_EQ(a.timestamp, c.timestamp);
 }
 
 TEST(msgpack, imu_st) {
@@ -105,6 +105,20 @@ TEST(msgpack, imu_st) {
     MsgPack<imu_st> buffer;
     zmq::message_t msg = buffer.pack(a);
     c = buffer.unpack(msg);
-    ASSERT_EQ(a,c);
+    ASSERT_EQ(a,  c);
+    ASSERT_EQ(a.timestamp, c.timestamp);
+}
+
+TEST(msgpack, lidar_st) {
+    lidar_st a, b, c;
+
+    for (int i=0; i<5; i++) a.data.push_back(pt_t(i*50, i*2.1));
+    // ASSERT_EQ(a,b);
+    ASSERT_FALSE(a == c);
+
+    MsgPack<lidar_st> buffer;
+    zmq::message_t msg = buffer.pack(a);
+    c = buffer.unpack(msg);
+    ASSERT_EQ(a, c);
     ASSERT_EQ(a.timestamp,c.timestamp);
 }

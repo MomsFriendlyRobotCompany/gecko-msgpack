@@ -132,7 +132,7 @@ public:
 class lidar_st: public base_t, public msg_st  {
 public:
     lidar_st(): base_t(GLIDAR) {}
-    // lidar_t(const imu_t& i): type(10), timestamp(i.timestamp), accel(i.accel), gyro(i.gyro), mag(i.mag) {}
+    lidar_st(const lidar_st& i): base_t(GLIDAR), msg_st(i.timestamp), data(i.data) {}
     // lidar_t(const vec_t& a, const vec_t& g, const vec_t& m): type(10), timestamp(123.456), accel(a), gyro(g), mag(m) {}
     std::vector<pt_t> data;
     // double timestamp;
@@ -144,10 +144,13 @@ public:
         printf("\n");
     }
     //
-    // bool operator==(const imu_t& v) const {
-    //     if((accel == v.accel) && (gyro == v.gyro) && (mag == v.mag) && (type == v.type)) return true;
-    //     return false;
-    // }
+    bool operator==(const lidar_st& v) const {
+        if (data.size() != v.data.size()) return false;
+        if (data == v.data) return true;
+        // for (int i=0; i < data.size(); i++)
+        //     if (data[i] != v.data[i]) return false;
+        return false;
+    }
 
     MSGPACK_DEFINE(data, timestamp);
 };

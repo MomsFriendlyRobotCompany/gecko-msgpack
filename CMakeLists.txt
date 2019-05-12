@@ -24,6 +24,12 @@ if (NOT APPLE)
     set(msgpack_DIR $ENV{HOME}/.local/lib/cmake/msgpack)
     include_directories($ENV{HOME}/.local/include)
     link_directories($ENV{HOME}/.local/lib)
+else()
+    include_directories($ENV{HOME}/github/gecko/src)
+    include_directories($ENV{HOME}/github/gecko/zmq)
+    link_directories($ENV{HOME}/github/gecko/build)
+    include_directories(/usr/local/include)
+    link_directories(/usr/local/lib)
 endif()
 
 # Load in pkg-config support --------------------------------------
@@ -113,7 +119,7 @@ list(APPEND ALL_LIBS gecko)
 # Tests --------------------------------------------------------------
 add_subdirectory(gtests)
 add_subdirectory(msgpack)
-# add_subdirectory(tools)
+add_subdirectory(dev)
 
 # Package Generator ------------------
 if(APPLE)
@@ -158,6 +164,10 @@ set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/readme.md")
 set(CPACK_SOURCE_IGNORE_FILES "${CMAKE_SOURCE_DIR}/build/;${CMAKE_SOURCE_DIR}/.git/")
 
 include(CPack)
+
+# file(GLOB MPHEADERS msgpack/*.hpp)
+add_library(geckomsgpack INTERFACE)  # header only library
+target_include_directories(geckomsgpack INTERFACE msgpack/)
 
 # Install ----------
 # You can redefine at build time:
