@@ -5,6 +5,7 @@ because I wanted to be modular and able to switch out to a different serializati
 package if I needed to.
 
 - [Msgpack](https://msgpack.org/index.html) for serialization of messages
+- [cppzmq](https://github.com/zeromq/cppzmq) is a header only, high level zmq
 
 ## Install
 
@@ -18,7 +19,7 @@ brew install msgpack
 
 ## Linux
 
-This will install the message formats into `gecko` in `/usr/local`. 
+This will install the message formats into `gecko` in `/usr/local`.
 
 ```
 cd gecko
@@ -30,12 +31,30 @@ make package
 sudo dpkg -i gecko-x.x.x-linux.deb
 ```
 
+## Messages
+
+Message formats are pulled from ROS. There are both common messages and time
+stamped messages.
+
+### Common Message Types (\_t suffix)
+
+- vec_t: 3D vector
+- quaternion_t: 4D quaternion
+- twist_t:
+- pose_t: robot orientation (quaternion) and position (vector)
+- wrench_t:
+
+### Time Stamped Messages (\_st suffix)
+
+- imu_st: IMU measurement (acceleration, angular velocity, magnetometer)
+- lidar_st: lidar measurements, an array of (angle [deg], range [m])
+
 Should you need to change install location, you can change that during the make:
 `cmake .. -DCMAKE_INSTALL_PREFIX=/home/kevin/.local`.
 
 # Examples
 
-The pub/sub examples below show how to use the `msgpack` adaptor to
+The pub/sub examples below show how to use the `msgpack` adapter to
 do a simple UDS pub/sub service.
 
 ## Subscriber
