@@ -34,6 +34,6 @@ public:
 };
 
 
-#include "common.hpp"
-#include "stamped.hpp"
-#include "serialization.hpp"
+#include "gecko/msgpack/common.hpp"
+#include "gecko/msgpack/stamped.hpp"
+#include "gecko/msgpack/serialization.hpp"

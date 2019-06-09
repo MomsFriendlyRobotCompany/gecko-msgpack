@@ -1,7 +1,7 @@
 #include <gtest/gtest.h> // googletest header file
 #include "gecko/gecko.hpp"
-#include "msgpack/msgs.hpp"
-#include "msgpack/msgpack_pub_sub.hpp"
+#include "gecko/msgpack/msgs.hpp"
+#include "gecko/msgpack/msgpack_pub_sub.hpp"
 #include <string>
 
 using namespace std;

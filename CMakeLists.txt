@@ -118,7 +118,7 @@ list(APPEND ALL_LIBS gecko)
 
 # Tests --------------------------------------------------------------
 add_subdirectory(gtests)
-add_subdirectory(msgpack)
+# add_subdirectory(msgpack)
 add_subdirectory(dev)
 
 # Package Generator ------------------

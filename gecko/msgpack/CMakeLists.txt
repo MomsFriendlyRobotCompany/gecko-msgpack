@@ -16,12 +16,12 @@
 #     # # tests/multicast-2-test.cpp
 # )
 
-set(MSGPACK_ALL
-    ${PROJECT_NAME}
-    ${MSGPACK_LIBRARY}
-    ${CMAKE_THREAD_LIBS_INIT}
-    ${ZMQ_LIBRARIES}
-)
+# set(MSGPACK_ALL
+#     ${PROJECT_NAME}
+#     ${MSGPACK_LIBRARY}
+#     ${CMAKE_THREAD_LIBS_INIT}
+#     ${ZMQ_LIBRARIES}
+# )
 
 # message(STATUS "MsgPack Tests ----------------------")
 # foreach(src ${msgpktests})
