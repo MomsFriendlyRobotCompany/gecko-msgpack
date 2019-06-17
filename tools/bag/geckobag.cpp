@@ -56,6 +56,7 @@ using namespace std;
 
 struct Abstract {
     // virtual ~Abstract() = 0;
+    std::vector<zmq::message_t> buffer;
 };
 
 template<class T>
@@ -70,7 +71,7 @@ public:
     // virtual ~Topic(){}
 protected:
     MsgPack<T> packer;
-    std::vector<zmq::message_t> buffer;
+    // std::vector<zmq::message_t> buffer;
 };
 
 class Bag {
@@ -89,6 +90,13 @@ public:
         cout << "push" << endl;
     }
 
+    void write(std::string filename){
+        for (auto const& [topic, abs]: db){
+            cout << topic << endl;
+            for (auto const& msg: abs->buffer) cout << msg << endl;
+        }
+    }
+
 protected:
     std::map<std::string, Abstract*> db;
 };
@@ -100,6 +108,10 @@ int main() {
     cout << v << endl;
     bag.newTopic<vec_t>("bob");
     bag.push<vec_t>("bob", v);
+    bag.push<vec_t>("bob", v);
+    bag.push<vec_t>("bob", v);
+    bag.push<vec_t>("bob", v);
+    bag.write("tom");
     // // This is target object.
     // my_class<double> classy;
     // for (int i=0; i<200; i++) classy.push("bob", 1.267*i);
