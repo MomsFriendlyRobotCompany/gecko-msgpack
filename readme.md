@@ -40,9 +40,9 @@ stamped messages.
 
 - vec_t: 3D vector
 - quaternion_t: 4D quaternion
-- twist_t:
+- twist_t: linear(vec_t), angular(vec_t) rates
 - pose_t: robot orientation (quaternion) and position (vector)
-- wrench_t:
+- wrench_t: force (vec_t), torque (vec_t)
 
 ### Time Stamped Messages (\_st suffix)
 
