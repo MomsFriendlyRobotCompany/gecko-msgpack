@@ -35,6 +35,10 @@
 #   include_directories("${gtest_SOURCE_DIR}/include")
 # endif()
 
+# link_directories(${PROJECT_SOURCE_DIR}/build)
+
+message(STATUS ">> gtest gecko-msgpack: ${PROJECT_SOURCE_DIR}/build")
+
 list(APPEND gtests
     msgpack-msgs-gtest.cpp
     msgpack-adaptor-gtest.cpp
@@ -46,6 +50,6 @@ foreach(src ${gtests})
     message(STATUS " -> ${name}")
     message(STATUS ">> ${ALL_LIBS}")
     add_executable(${name} ${src})
-    target_link_libraries(${name} gtest_main ${ALL_LIBS})
+    target_link_libraries(${name} gtest_main ${ALL_LIBS} gecko)
     add_test(NAME ${name} COMMAND ${name})
 endforeach()

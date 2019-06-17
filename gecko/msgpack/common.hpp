@@ -7,6 +7,7 @@
 
 #include "gecko/msgpack/msgs.hpp"
 #include <stdio.h>
+#include <iostream>
 
 
 // class String: public base_t {
@@ -46,6 +47,10 @@ public:
     //     z=a.z;
     //     return *this;
     // }
+    friend std::ostream& operator<<(std::ostream& os, const vec_t& v){
+        os << v.x << " " << v.y << " " << v.z;
+        return os;
+    }
     bool operator==(const vec_t& v) const {
         if((x == v.x) && (y == v.y) && (z == v.z) && (type == v.type)) return true;
         return false;

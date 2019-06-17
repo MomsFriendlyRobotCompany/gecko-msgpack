@@ -5,26 +5,24 @@
 \**************************************************/
 #pragma once
 
-// #include <string>
-// #include <stdio.h>
 #include <stdint.h>
 #include <msgpack.hpp>
 
 enum GeckoMsgs {
-    GVECTOR    = 0,
-    GQUATERNION= 1,
-    GWRENCH    = 2,
-    GPOSE      = 3,
-    GJOYSTICK  = 4,
-    GTWIST     = 5,
-    GIMU       = 10,
-    GLIDAR     = 20,
-    GIMAGE     = 12,
-    GOCC       = 13,
-    GODOM      = 14
+    GVECTOR    = 0,  // vector: x,y,z
+    GQUATERNION= 1,  // quaterion: w,x,y,z
+    GWRENCH    = 2,  // wrench: force, torque
+    GPOSE      = 3,  // pose: position, orientation
+    GJOYSTICK  = 4,  // joystick: axes, buttons
+    GTWIST     = 5,  // twist: linear, angular velocity
+    GIMU       = 10, // imu
+    GLIDAR     = 20, // lidar
+    GIMAGE     = 12, // image
+    GOCC       = 13, // occupancy grid
+    GODOM      = 14  // odometry
 };
 
-/**
+/****
  * Base class for keeping track of message type
  */
 class base_t {
