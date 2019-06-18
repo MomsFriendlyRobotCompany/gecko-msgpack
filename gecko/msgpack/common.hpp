@@ -9,6 +9,10 @@
 #include <stdio.h>
 #include <iostream>
 
+// https://stackoverflow.com/questions/4170745/serializing-opencv-mat-vec3f
+// https://stackoverflow.com/questions/29350993/serialize-opencv-mat-using-json-in-c
+// try imencode(".jpg", InputArray img, vector<uchar>& buf) -> single row image
+
 
 // class String: public base_t {
 //     std::string
