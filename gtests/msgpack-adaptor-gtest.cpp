@@ -41,7 +41,8 @@ TEST(msgpack, gecko_pub_sub_uds) {
 }
 
 TEST(msgpack, gecko_pub_sub_tcp) {
-    ps(zmqTCP("localhost"));
+    HostInfo h;
+    ps(zmqTCP(h.address));
 }
 
 void rr(std::string path){
@@ -53,5 +54,6 @@ TEST(msgpack, gecko_req_rep_uds) {
 }
 
 TEST(msgpack, gecko_req_rep_tcp) {
-    rr(zmqTCP("localhost"));
+    HostInfo h;
+    rr(zmqTCP(h.address));
 }

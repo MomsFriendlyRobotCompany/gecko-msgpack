@@ -8,8 +8,11 @@
 #include <stdint.h>
 #include <msgpack.hpp>
 #include <string>
+#include <array>
 #include <sstream>
 #include <zmq.hpp>
+#include <stdint.h>
+
 
 /****
  * These are needed for python and the way it packs/unpacks messages.
@@ -21,6 +24,7 @@ enum GeckoMsgs {
     GPOSE      = 3,  // pose: position, orientation
     GJOYSTICK  = 4,  // joystick: axes, buttons
     GTWIST     = 5,  // twist: linear, angular velocity
+    GCAMERA    = 6,  // camera info: various calibration matricies
     GIMU       = 10, // imu
     GLIDAR     = 20, // lidar
     GIMAGE     = 12, // image
