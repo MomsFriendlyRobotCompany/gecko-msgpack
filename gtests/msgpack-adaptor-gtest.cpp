@@ -6,31 +6,23 @@
 
 using namespace std;
 
-TEST(dummy, simple) {
-    ASSERT_TRUE(true);
-}
+// TEST(dummy, simple) {
+//     ASSERT_TRUE(true);
+// }
 
 
-TEST(msgpack, msg_adaptor_uds) {
+void ps(std::string path){
     gecko::init();
-
-    string uds = zmqUDS("/tmp/0");
 
     vec_t a(1,-2,3.3);
 
     Publisher p;
-    p.bind(uds);
-    // mpPublisher<vec_t> pub(p);
-    // pub.publish(a);
+    p.bind(path);
 
     Subscriber s;
-    s.connect(uds);
-    // mpSubscriber<vec_t> sub(s);
-    // vec_t b = sub.recv_nb();
+    s.connect(path);
 
     // we always loose the first message due to subscription time
-    // vec_t b;
-    // bool ok = false;
     while (1){
         zmq::message_t mm = a.pack();
         p.publish(mm);
@@ -41,40 +33,25 @@ TEST(msgpack, msg_adaptor_uds) {
             ASSERT_TRUE(a == b);
             break;
         }
-        // cout << ans << endl;
     }
-
-    // a.print();
-    // b.print();
-
-    // ASSERT_TRUE(a == b);
 }
-//
-// TEST(msgpack, msg_adaptor_tcp) {
-//     gecko::init();
-//     vec_t a(1,-2,3.3);
-//
-//     Publisher *p = gecko::pubBindTCP("dalek", "test");
-//     if (p == nullptr) ASSERT_TRUE(false) << "pubBindTCP failed";
-//     mpPublisher<vec_t> pub(p);
-//
-//     Subscriber *s = gecko::subConnectTCP("dalek", "test");
-//     if (s == nullptr) ASSERT_TRUE(false) << "subConnectTCP failed";
-//     mpSubscriber<vec_t> sub(s);
-//     // vec_t b = sub.recv_nb();
-//
-//     // we always loose the first message due to subscription time
-//     vec_t b;
-//     bool ok = false;
-//     while (!ok){
-//         pub.publish(a);
-//         gecko::msleep(100);
-//         ok = sub.recv_nb(b);
-//         // cout << ans << endl;
-//     }
-//
-//     // a.print();
-//     // b.print();
-//
-//     ASSERT_TRUE(a == b);
-// }
+
+TEST(msgpack, gecko_pub_sub_uds) {
+    ps(zmqUDS("/tmp/0"));
+}
+
+TEST(msgpack, gecko_pub_sub_tcp) {
+    ps(zmqTCP("localhost"));
+}
+
+void rr(std::string path){
+    ASSERT_TRUE(true);
+}
+
+TEST(msgpack, gecko_req_rep_uds) {
+    rr(zmqUDS("/tmp/0"));
+}
+
+TEST(msgpack, gecko_req_rep_tcp) {
+    rr(zmqTCP("localhost"));
+}
