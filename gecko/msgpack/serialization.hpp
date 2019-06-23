@@ -3,97 +3,97 @@
 * Copyright (c) 2014 Kevin Walchko
 * see LICENSE for full details
 \**************************************************/
-#pragma once
-
-#include <msgpack.hpp>
-#include <stdio.h>
-#include <string>
-#include <sstream>
-#include <iostream>
-#include "msgs.hpp"
-#include "zmq.hpp"
-#include <zlib.h>
-
-
-template<class msg>
-class MsgPack {
-public:
-    zmq::message_t pack(const msg& m);
-    msg unpack(const zmq::message_t& zm);
-};
-
-
-template<class msg>
-zmq::message_t MsgPack<msg>::pack(const msg& m){
-    std::stringstream ssmsg;
-    msgpack::pack(ssmsg, m);
-
-    // std::cout << "packed msg: " << sss.str().size() << " " << sss.str() << std::endl;
-
-    msgpack::type::ext e1(m.type, ssmsg.str().data(), ssmsg.str().size());
-
-    // printf(">> packed: %d\n", m.type);
-
-    std::stringstream ss;
-    msgpack::pack(ss, e1);
-
-    // std::cout << "packed ext: " << ss.str().size() << " " << ss.str() << std::endl;
-
-    // std::string cs = compress_string(ss.str());
-    // std::cout << "compressed string size: " << cs.size() << std::endl;
-
-    zmq::message_t zm(static_cast<void*>(ss.str().data()), ss.str().size());
-    // zmq::message_t zm(reinterpret_cast<void*>(cs.data()), cs.size());
-    // std::cout << "compressed message_t size: " << zm.size() << std::endl;
-    // std::cout << "pack addr: " << &zm << std::endl;
-    return zm;
-}
-
-template<class msg>
-msg MsgPack<msg>::unpack(const zmq::message_t& zm){
-    // std::string cs(reinterpret_cast<const char*>(zm.data()), zm.size());
-    // std::stringstream ss(cs);
-
-    // msg message;
-    // try {
-    //     // msgpack::object_handle oh = msgpack::unpack(ss.str().data(), ss.str().size());
-    //     msgpack::object_handle oh = msgpack::unpack(reinterpret_cast<const char*>(zm.data()), zm.size());
-    //     msgpack::type::ext ext = oh.get().as<msgpack::type::ext>();
-    //
-    //     msgpack::object_handle oh2 = msgpack::unpack(ext.data(), ext.size());
-    //     msgpack::object obj = oh2.get();
-    //     obj.convert(message);
-    //     // cout << ">> e3: " << e3 << endl;
-    //     // e.print();
-    //     // printf("e final: %d\n",e.type);
-    // }
-    // catch (const std::exception &e){
-    //     std::cout << "*** " << e.what() << " ***" << std::endl;
-    // }
-    // return message;
-    msg m;
-    try {
-        // msgpack::object_handle oh = msgpack::unpack(ss.str().data(), ss.str().size());
-        msgpack::object_handle oh = msgpack::unpack(reinterpret_cast<const char*>(zm.data()), zm.size());
-        msgpack::type::ext ext = oh.get().as<msgpack::type::ext>();
-        // std::cout << " ext type: " << int(ext.type()) << std::endl;
-        // cout << " > data: " << "  size: " << int(ext.size()) << "  d:" << double(ext.data()[0]) << endl;
-
-        msgpack::object_handle oh2 = msgpack::unpack(ext.data(), ext.size());
-        // cout << oh2 << endl;
-
-        msgpack::object obj = oh2.get();
-        // std::cout << obj << std::endl;
-
-        // msg m;
-        obj.convert(m);
-        // m.print();
-    }
-    catch (const std::exception &e){
-        std::cout << "*** " << e.what() << " ***" << std::endl;
-    }
-    return m;
-}
+// #pragma once
+//
+// #include <msgpack.hpp>
+// #include <stdio.h>
+// #include <string>
+// #include <sstream>
+// #include <iostream>
+// #include "msgs.hpp"
+// #include "zmq.hpp"
+// #include <zlib.h>
+//
+//
+// template<class msg>
+// class MsgPack {
+// public:
+//     zmq::message_t pack(const msg& m);
+//     msg unpack(const zmq::message_t& zm);
+// };
+//
+//
+// template<class msg>
+// zmq::message_t MsgPack<msg>::pack(const msg& m){
+//     std::stringstream ssmsg;
+//     msgpack::pack(ssmsg, m);
+//
+//     // std::cout << "packed msg: " << sss.str().size() << " " << sss.str() << std::endl;
+//
+//     msgpack::type::ext e1(m.type, ssmsg.str().data(), ssmsg.str().size());
+//
+//     // printf(">> packed: %d\n", m.type);
+//
+//     std::stringstream ss;
+//     msgpack::pack(ss, e1);
+//
+//     // std::cout << "packed ext: " << ss.str().size() << " " << ss.str() << std::endl;
+//
+//     // std::string cs = compress_string(ss.str());
+//     // std::cout << "compressed string size: " << cs.size() << std::endl;
+//
+//     zmq::message_t zm(static_cast<void*>(ss.str().data()), ss.str().size());
+//     // zmq::message_t zm(reinterpret_cast<void*>(cs.data()), cs.size());
+//     // std::cout << "compressed message_t size: " << zm.size() << std::endl;
+//     // std::cout << "pack addr: " << &zm << std::endl;
+//     return zm;
+// }
+//
+// template<class msg>
+// msg MsgPack<msg>::unpack(const zmq::message_t& zm){
+//     // std::string cs(reinterpret_cast<const char*>(zm.data()), zm.size());
+//     // std::stringstream ss(cs);
+//
+//     // msg message;
+//     // try {
+//     //     // msgpack::object_handle oh = msgpack::unpack(ss.str().data(), ss.str().size());
+//     //     msgpack::object_handle oh = msgpack::unpack(reinterpret_cast<const char*>(zm.data()), zm.size());
+//     //     msgpack::type::ext ext = oh.get().as<msgpack::type::ext>();
+//     //
+//     //     msgpack::object_handle oh2 = msgpack::unpack(ext.data(), ext.size());
+//     //     msgpack::object obj = oh2.get();
+//     //     obj.convert(message);
+//     //     // cout << ">> e3: " << e3 << endl;
+//     //     // e.print();
+//     //     // printf("e final: %d\n",e.type);
+//     // }
+//     // catch (const std::exception &e){
+//     //     std::cout << "*** " << e.what() << " ***" << std::endl;
+//     // }
+//     // return message;
+//     msg m;
+//     try {
+//         // msgpack::object_handle oh = msgpack::unpack(ss.str().data(), ss.str().size());
+//         msgpack::object_handle oh = msgpack::unpack(reinterpret_cast<const char*>(zm.data()), zm.size());
+//         msgpack::type::ext ext = oh.get().as<msgpack::type::ext>();
+//         // std::cout << " ext type: " << int(ext.type()) << std::endl;
+//         // cout << " > data: " << "  size: " << int(ext.size()) << "  d:" << double(ext.data()[0]) << endl;
+//
+//         msgpack::object_handle oh2 = msgpack::unpack(ext.data(), ext.size());
+//         // cout << oh2 << endl;
+//
+//         msgpack::object obj = oh2.get();
+//         // std::cout << obj << std::endl;
+//
+//         // msg m;
+//         obj.convert(m);
+//         // m.print();
+//     }
+//     catch (const std::exception &e){
+//         std::cout << "*** " << e.what() << " ***" << std::endl;
+//     }
+//     return m;
+// }
 
 
 ////////////// OLD /////////////////////////////

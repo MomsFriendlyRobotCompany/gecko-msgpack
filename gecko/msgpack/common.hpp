@@ -18,6 +18,17 @@
 //     std::string
 // }
 
+// #define GECKO_MSG(name, id) \
+// name(const zmq::message_t& zm): base_t(id) { \
+//     msgpack::object obj = unpack(zm); \
+//     obj.convert(*this); \
+// } \
+// zmq::message_t pack(){ \
+//     std::stringstream ssmsg; \
+//     msgpack::pack(ssmsg, *this); \
+//     return base_t::pack(ssmsg); \
+// }
+
 class vec_t: public base_t {
 public:
     vec_t(): base_t(GVECTOR) {}
@@ -31,6 +42,18 @@ public:
         y = b;
         z = c;
     }
+    GECKO_MSG(vec_t, GVECTOR);
+    // vec_t(const zmq::message_t& zm): base_t(GVECTOR) {
+    //     msgpack::object obj = unpack(zm);
+    //     obj.convert(*this);
+    // }
+    // zmq::message_t pack(){
+    //     std::stringstream ssmsg;
+    //     msgpack::pack(ssmsg, *this);
+    //     return base_t::pack(ssmsg);
+    // }
+
+
     // double operator[](uint8_t i){
     //     if(i == 0) return x;
     //     else if (i == 1) return y;
@@ -72,6 +95,15 @@ public:
     quaternion_t(): base_t(GQUATERNION) {}
     quaternion_t(double a, double b, double c, double d): base_t(GQUATERNION), w(a), x(b), y(c), z(d) {}
     quaternion_t(const quaternion_t& q): base_t(GQUATERNION), w(q.w), x(q.x), y(q.y), z(q.z) {}
+    // quaternion_t(const zmq::message_t& zm): base_t(GQUATERNION) {
+    //     msgpack::object obj = unpack(zm);
+    //     obj.convert(*this);
+    // }
+    // zmq::message_t pack(){
+    //     std::stringstream ssmsg;
+    //     msgpack::pack(ssmsg, *this);
+    //     return base_t::pack(ssmsg);
+    // }
     bool operator==(const quaternion_t& v) const {
         if((x == v.x) && (y == v.y) && (z == v.z) && (w == v.w) && (type == v.type)) return true;
         return false;
@@ -81,6 +113,7 @@ public:
         printf(" [%f %f %f %f]\n",w,x,y,z);
     }
     MSGPACK_DEFINE(w,x,y,z);
+    GECKO_MSG(quaternion_t, GQUATERNION);
 };
 
 // class msg_t {
@@ -122,6 +155,15 @@ class twist_t: public base_t {
 public:
     twist_t(): base_t(GTWIST) {}
     twist_t(vec_t a, vec_t b): base_t(GTWIST),linear(a), angular(b) {}
+    twist_t(const zmq::message_t& zm): base_t(GTWIST) {
+        msgpack::object obj = unpack(zm);
+        obj.convert(*this);
+    }
+    zmq::message_t pack(){
+        std::stringstream ssmsg;
+        msgpack::pack(ssmsg, *this);
+        return base_t::pack(ssmsg);
+    }
     vec_t linear, angular;
     bool operator==(const twist_t& v) const {
         if((linear == v.linear) && (angular == v.angular) && (type == v.type)) return true;
@@ -137,6 +179,15 @@ class wrench_t: public base_t {
 public:
     wrench_t(): base_t(GWRENCH) {}
     wrench_t(vec_t a, vec_t b): base_t(GWRENCH), force(a), torque(b) {}
+    wrench_t(const zmq::message_t& zm): base_t(GWRENCH) {
+        msgpack::object obj = unpack(zm);
+        obj.convert(*this);
+    }
+    zmq::message_t pack(){
+        std::stringstream ssmsg;
+        msgpack::pack(ssmsg, *this);
+        return base_t::pack(ssmsg);
+    }
 
     vec_t force, torque;
 
@@ -156,6 +207,15 @@ public:
     pose_t(): base_t(GPOSE) {}
     pose_t(vec_t p, quaternion_t q): base_t(GPOSE), position(p), orientation(q) {}
     pose_t(const pose_t& p): base_t(GPOSE), position(p.position), orientation(p.orientation) {}
+    pose_t(const zmq::message_t& zm): base_t(GPOSE) {
+        msgpack::object obj = unpack(zm);
+        obj.convert(*this);
+    }
+    zmq::message_t pack(){
+        std::stringstream ssmsg;
+        msgpack::pack(ssmsg, *this);
+        return base_t::pack(ssmsg);
+    }
     vec_t position;
     quaternion_t orientation;
 

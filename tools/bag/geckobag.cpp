@@ -54,64 +54,64 @@ using namespace std;
 //
 // };
 
-struct Abstract {
-    // virtual ~Abstract() = 0;
-    std::vector<zmq::message_t> buffer;
-};
-
-template<class T>
-class Topic: public Abstract {
-public:
-    Topic() {}
-    void push(T msg) {
-        // zmq::message_t zm = packer.pack(msg);
-        buffer.push_back(packer.pack(msg));
-        cout << "push:" << endl;
-    }
-    // virtual ~Topic(){}
-protected:
-    MsgPack<T> packer;
-    // std::vector<zmq::message_t> buffer;
-};
-
-class Bag {
-public:
-    Bag() {}
-    template<class T> void newTopic(const std::string& topic){
-        Topic<T> *mp = new Topic<T>();
-        db[topic] = static_cast<Abstract*>(mp);
-        cout << "new topic" << endl;
-    }
-
-    template<class T>
-    void push(std::string topic, const T& msg){
-        Topic<T> *t = static_cast<Topic<T>*>(db[topic]);
-        t->push(msg);
-        cout << "push" << endl;
-    }
-
-    void write(std::string filename){
-        for (auto const& [topic, abs]: db){
-            cout << topic << endl;
-            for (auto const& msg: abs->buffer) cout << msg << endl;
-        }
-    }
-
-protected:
-    std::map<std::string, Abstract*> db;
-};
+// struct Abstract {
+//     // virtual ~Abstract() = 0;
+//     std::vector<zmq::message_t> buffer;
+// };
+//
+// template<class T>
+// class Topic: public Abstract {
+// public:
+//     Topic() {}
+//     void push(T msg) {
+//         // zmq::message_t zm = packer.pack(msg);
+//         buffer.push_back(packer.pack(msg));
+//         cout << "push:" << endl;
+//     }
+//     // virtual ~Topic(){}
+// protected:
+//     MsgPack<T> packer;
+//     // std::vector<zmq::message_t> buffer;
+// };
+//
+// class Bag {
+// public:
+//     Bag() {}
+//     template<class T> void newTopic(const std::string& topic){
+//         Topic<T> *mp = new Topic<T>();
+//         db[topic] = static_cast<Abstract*>(mp);
+//         cout << "new topic" << endl;
+//     }
+//
+//     template<class T>
+//     void push(std::string topic, const T& msg){
+//         Topic<T> *t = static_cast<Topic<T>*>(db[topic]);
+//         t->push(msg);
+//         cout << "push" << endl;
+//     }
+//
+//     void write(std::string filename){
+//         for (auto const& [topic, abs]: db){
+//             cout << topic << endl;
+//             for (auto const& msg: abs->buffer) cout << msg << endl;
+//         }
+//     }
+//
+// protected:
+//     std::map<std::string, Abstract*> db;
+// };
 
 int main() {
 
-    Bag bag;
-    vec_t v(1,2,3);
-    cout << v << endl;
-    bag.newTopic<vec_t>("bob");
-    bag.push<vec_t>("bob", v);
-    bag.push<vec_t>("bob", v);
-    bag.push<vec_t>("bob", v);
-    bag.push<vec_t>("bob", v);
-    bag.write("tom");
+    // Bag bag;
+    // vec_t v(1,2,3);
+    // cout << v << endl;
+    // bag.newTopic<vec_t>("bob");
+    // bag.push<vec_t>("bob", v);
+    // bag.push<vec_t>("bob", v);
+    // bag.push<vec_t>("bob", v);
+    // bag.push<vec_t>("bob", v);
+    // bag.write("tom");
     // // This is target object.
     // my_class<double> classy;
     // for (int i=0; i<200; i++) classy.push("bob", 1.267*i);

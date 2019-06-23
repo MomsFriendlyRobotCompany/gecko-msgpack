@@ -6,7 +6,7 @@
 #pragma once
 
 #include "msgs.hpp"
-#include "common.hpp"
+// #include "common.hpp"
 #include <ctime>
 #include <vector>
 #include <sys/time.h>
@@ -46,6 +46,7 @@ public:
 
     // MSGPACK_DEFINE(accel, gyro, mag, MSGPACK_BASE(msg_st));
     MSGPACK_DEFINE(accel, gyro, mag, timestamp);
+    GECKO_MSG(imu_st, GIMU);
 };
 
 class twist_st: public twist_t, public msg_st {
@@ -58,6 +59,7 @@ public:
     // }
     // vec_t linear, angular;
     MSGPACK_DEFINE(linear, angular, timestamp);
+    // GECKO_MSG(twist_st, GTWIST);
     // MSGPACK_DEFINE(MSGPACK_BASE(twist_t), MSGPACK_BASE(msg_st));
 };
 
@@ -69,6 +71,7 @@ public:
 
     void print() const {printf("pose_st [%f]\n", timestamp);}
     MSGPACK_DEFINE(MSGPACK_BASE(pose_t), timestamp);
+    // GECKO_MSG(pose_st, GPOSE);
 };
 
 class odometry_st: public base_t, public msg_st {
@@ -87,6 +90,7 @@ public:
     pose_t pose;
     twist_t twist;
     MSGPACK_DEFINE(pose, twist, timestamp);
+    GECKO_MSG(odometry_st, GODOM);
 };
 
 class occupancygrid_st: public base_t, public msg_st {
@@ -111,6 +115,7 @@ public:
     double resolution; // map resolution [m/cell]
 
     MSGPACK_DEFINE(width, height, resolution, cells, timestamp);
+    GECKO_MSG(occupancygrid_st, GOCC);
 };
 
 class pt_t {
@@ -153,6 +158,7 @@ public:
     }
 
     MSGPACK_DEFINE(data, timestamp);
+    GECKO_MSG(lidar_st, GLIDAR);
 };
 
 
