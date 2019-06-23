@@ -27,65 +27,55 @@ using namespace std;
 //     }
 // }
 
+template<class T>
+void msg(T a){
+    zmq::message_t msg = a.pack();
+    T c(msg);
+    ASSERT_EQ(a,c);
+    // ASSERT_FALSE(a == b);
+    // ASSERT_FALSE(c == b);
+    // ASSERT_TRUE(a == c);
+}
+
+template<class T>
+void msg_st(T a){
+    zmq::message_t msg = a.pack();
+    T c(msg);
+    ASSERT_EQ(a,c);
+    ASSERT_EQ(a.timestamp, c.timestamp);
+    // ASSERT_FALSE(a == b);
+    // ASSERT_FALSE(c == b);
+    // ASSERT_TRUE(a == c);
+}
 
 TEST(msgpack, vec_t) {
-    vec_t a(1,-2,3.3), b(1,2,3.3);
-    // ASSERT_FALSE(a,b);
-    ASSERT_FALSE(a == b);
-
-    // MsgPack<vec_t> buffer;
-    zmq::message_t msg = a.pack();
-    vec_t c(msg);
-    ASSERT_EQ(a,c);
+    msg<vec_t>(vec_t(1,-2,0.33));
 }
-//
-// TEST(msgpack, quaternion_t) {
-//     quaternion_t a(1,2,3.3,4), b(1,-2,3.3,4), c;
-//     ASSERT_EQ(a,b);
-//     ASSERT_FALSE(a == b);
-//
-//     zmq::message_t msg = a.pack();
-//     c = buffer.unpack(msg);
-//     ASSERT_EQ(a,c);
-// }
-//
-// TEST(msgpack, twist_t) {
-//     vec_t v(1,1,1);
-//     twist_t a(v,v), b(v,v), c;
-//     ASSERT_EQ(a,b);
-//     ASSERT_FALSE(a == c);
-//
-//     MsgPack<twist_t> buffer;
-//     zmq::message_t msg = buffer.pack(a);
-//     c = buffer.unpack(msg);
-//     ASSERT_EQ(a,c);
-// }
-//
-// TEST(msgpack, pose_t) {
-//     vec_t v(1,1,1);
-//     quaternion_t q(1,0,0,0);
-//     pose_t a(v,q), b(v,q), c;
-//     ASSERT_EQ(a,b);
-//     ASSERT_FALSE(a == c);
-//
-//     MsgPack<pose_t> buffer;
-//     zmq::message_t msg = buffer.pack(a);
-//     c = buffer.unpack(msg);
-//     ASSERT_EQ(a,c);
-// }
-//
-// TEST(msgpack, wrench_t) {
-//     vec_t v(1,1,1);
-//     wrench_t a(v,v), b(v,v), c;
-//     ASSERT_EQ(a,b);
-//     ASSERT_FALSE(a == c);
-//
-//     MsgPack<wrench_t> buffer;
-//     zmq::message_t msg = buffer.pack(a);
-//     c = buffer.unpack(msg);
-//     ASSERT_EQ(a,c);
-// }
-//
+
+TEST(msgpack, quaternion_t) {
+    quaternion_t a(1,2,3.3,4);
+    msg<quaternion_t>(a);
+}
+
+TEST(msgpack, twist_t) {
+    vec_t v(1,1,1);
+    twist_t a(v,v);
+    msg<twist_t>(a);
+}
+
+TEST(msgpack, pose_t) {
+    vec_t v(1,1,1);
+    quaternion_t q(1,0,0,0);
+    pose_t a(v,q);
+    msg<pose_t>(a);
+}
+
+TEST(msgpack, wrench_t) {
+    vec_t v(1,1,1);
+    wrench_t a(v,v);
+    msg<wrench_t>(a);
+}
+
 // TEST(msgpack, twist_st) {
 //     vec_t v(1, 1, 1);
 //     twist_st a(v, v), b(v, v), c;
@@ -112,20 +102,13 @@ TEST(msgpack, vec_t) {
 //     ASSERT_EQ(a, c);
 //     ASSERT_EQ(a.timestamp, c.timestamp);
 // }
-//
-// TEST(msgpack, imu_st) {
-//     vec_t v(0.000001,1000,-1);
-//     imu_st a(v,v,v), b(v,v,v), c;
-//     // ASSERT_EQ(a,b);
-//     ASSERT_FALSE(a == c);
-//
-//     MsgPack<imu_st> buffer;
-//     zmq::message_t msg = buffer.pack(a);
-//     c = buffer.unpack(msg);
-//     ASSERT_EQ(a,  c);
-//     ASSERT_EQ(a.timestamp, c.timestamp);
-// }
-//
+
+TEST(msgpack, imu_st) {
+    vec_t v(0.000001,1000,-1);
+    imu_st a(v,v,v);
+    msg_st<imu_st>(a);
+}
+
 // TEST(msgpack, lidar_st) {
 //     lidar_st a, b, c;
 //
