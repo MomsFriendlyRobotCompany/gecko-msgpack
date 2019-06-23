@@ -48,31 +48,31 @@ public:
     MSGPACK_DEFINE(accel, gyro, mag, timestamp);
     GECKO_MSG(imu_st, GIMU);
 };
-
-class twist_st: public twist_t, public msg_st {
-public:
-    twist_st() {}
-    twist_st(const vec_t& l, const vec_t& a): twist_t(l,a) {}
-    // bool operator==(const twist_st& v) const {
-    //     if((linear == v.linear) && (angular == v.angular) && (type == v.type)) return true;
-    //     return false;
-    // }
-    // vec_t linear, angular;
-    MSGPACK_DEFINE(linear, angular, timestamp);
-    // GECKO_MSG(twist_st, GTWIST);
-    // MSGPACK_DEFINE(MSGPACK_BASE(twist_t), MSGPACK_BASE(msg_st));
-};
-
-class pose_st: public pose_t, public msg_st {
-public:
-    pose_st() {}
-    pose_st(const vec_t& p, const quaternion_t& q): pose_t(p, q) {}
-    pose_st(const pose_st& p): pose_t(p.position, p.orientation), msg_st(p.timestamp) {}
-
-    void print() const {printf("pose_st [%f]\n", timestamp);}
-    MSGPACK_DEFINE(MSGPACK_BASE(pose_t), timestamp);
-    // GECKO_MSG(pose_st, GPOSE);
-};
+//
+// class twist_st: public twist_t, public msg_st {
+// public:
+//     twist_st() {}
+//     twist_st(const vec_t& l, const vec_t& a): twist_t(l,a) {}
+//     // bool operator==(const twist_st& v) const {
+//     //     if((linear == v.linear) && (angular == v.angular) && (type == v.type)) return true;
+//     //     return false;
+//     // }
+//     // vec_t linear, angular;
+//     MSGPACK_DEFINE(linear, angular, timestamp);
+//     // GECKO_MSG(twist_st, GTWIST);
+//     // MSGPACK_DEFINE(MSGPACK_BASE(twist_t), MSGPACK_BASE(msg_st));
+// };
+//
+// class pose_st: public pose_t, public msg_st {
+// public:
+//     pose_st() {}
+//     pose_st(const vec_t& p, const quaternion_t& q): pose_t(p, q) {}
+//     pose_st(const pose_st& p): pose_t(p.position, p.orientation), msg_st(p.timestamp) {}
+//
+//     void print() const {printf("pose_st [%f]\n", timestamp);}
+//     MSGPACK_DEFINE(MSGPACK_BASE(pose_t), timestamp);
+//     // GECKO_MSG(pose_st, GPOSE);
+// };
 
 class odometry_st: public base_t, public msg_st {
 public:

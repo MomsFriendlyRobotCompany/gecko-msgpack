@@ -38,7 +38,10 @@ enum GeckoMsgs {
  */
 #define GECKO_MSG(name, id) \
 name(const zmq::message_t& zm): base_t(id) { \
-    msgpack::object obj = unpack(zm); \
+    msgpack::object_handle oh = msgpack::unpack(reinterpret_cast<const char*>(zm.data()), zm.size()); \
+    msgpack::type::ext ext = oh.get().as<msgpack::type::ext>();\
+    msgpack::object_handle oh2 = msgpack::unpack(ext.data(), ext.size()); \
+    msgpack::object obj = oh2.get(); \
     obj.convert(*this); \
 } \
 zmq::message_t pack(){ \
@@ -79,29 +82,30 @@ public:
         return zm;
     }
 
-    msgpack::object unpack(const zmq::message_t& zm) {
-        try {
-            // msgpack::object_handle oh = msgpack::unpack(ss.str().data(), ss.str().size());
-            msgpack::object_handle oh = msgpack::unpack(reinterpret_cast<const char*>(zm.data()), zm.size());
-            msgpack::type::ext ext = oh.get().as<msgpack::type::ext>();
-            // std::cout << " ext type: " << int(ext.type()) << std::endl;
-            // cout << " > data: " << "  size: " << int(ext.size()) << "  d:" << double(ext.data()[0]) << endl;
-
-            msgpack::object_handle oh2 = msgpack::unpack(ext.data(), ext.size());
-            // cout << oh2 << endl;
-
-            msgpack::object obj = oh2.get();
-            return obj;
-            // std::cout << obj << std::endl;
-
-            // msg m;
-            // obj.convert(*this);
-            // m.print();
-        }
-        catch (const std::exception &e){
-            std::cout << "*** " << e.what() << " ***" << std::endl;
-        }
-    }
+    // DOESN'T WORK!!!
+    // msgpack::object unpack(const zmq::message_t& zm) {
+    //     // try {
+    //         // msgpack::object_handle oh = msgpack::unpack(ss.str().data(), ss.str().size());
+    //         msgpack::object_handle oh = msgpack::unpack(reinterpret_cast<const char*>(zm.data()), zm.size());
+    //         msgpack::type::ext ext = oh.get().as<msgpack::type::ext>();
+    //         // std::cout << " ext type: " << int(ext.type()) << std::endl;
+    //         // cout << " > data: " << "  size: " << int(ext.size()) << "  d:" << double(ext.data()[0]) << endl;
+    //
+    //         msgpack::object_handle oh2 = msgpack::unpack(ext.data(), ext.size());
+    //         // cout << oh2 << endl;
+    //
+    //         msgpack::object obj = oh2.get();
+    //         return obj;
+    //         // std::cout << obj << std::endl;
+    //
+    //         // msg m;
+    //         // obj.convert(*this);
+    //         // m.print();
+    //     // }
+    //     // catch (const std::exception &e){
+    //     //     std::cout << "*** " << e.what() << " ***" << std::endl;
+    //     // }
+    // }
 
     uint8_t type;  // this is use when packing/unpacking primarily in python
 };

@@ -42,6 +42,7 @@ message(STATUS ">> gtest gecko-msgpack: ${PROJECT_SOURCE_DIR}/build")
 list(APPEND gtests
     msgpack-msgs-gtest.cpp
     msgpack-adaptor-gtest.cpp
+    msgpack-new-gtest.cpp
 )
 
 message(STATUS "MsgPack::gTests ----------------------")
