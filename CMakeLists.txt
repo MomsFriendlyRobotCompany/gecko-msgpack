@@ -18,7 +18,11 @@ foreach(src ${tools})
     get_filename_component(name ${src} NAME_WE)
     message(STATUS " -> ${name}")
     add_executable(${name} ${src})
-    target_link_libraries(${name} ${ALL_LIBS} gecko)
+    target_link_libraries(${name}
+        PUBLIC
+            ${ALL_LIBS}
+            gecko
+    )
 
     # install(TARGETS ${name} DESTINATION bin)
 endforeach()
