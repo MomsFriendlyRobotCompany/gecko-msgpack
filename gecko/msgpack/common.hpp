@@ -96,7 +96,7 @@ public:
     //     return *this;
     // }
     friend std::ostream& operator<<(std::ostream& os, const vec_t& v){
-        os << v.x << " " << v.y << " " << v.z;
+        os << "[" << v.x << " " << v.y << " " << v.z << "]";
         return os;
     }
     bool operator==(const vec_t& v) const {
@@ -132,6 +132,10 @@ public:
     double w,x,y,z;
     void print() const {
         printf(" [%f %f %f %f]\n",w,x,y,z);
+    }
+    friend std::ostream& operator<<(std::ostream& os, const quaternion_t& q){
+        os << "[" << q.w << " " << q.x << " " << q.y << " " << q.z << "]";
+        return os;
     }
     MSGPACK_DEFINE(w,x,y,z);
     GECKO_MSG(quaternion_t, GQUATERNION);

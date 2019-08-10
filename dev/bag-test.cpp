@@ -22,23 +22,31 @@ public:
             db[key].push_back(m);
         }
         else {
-            vector<MSG> v{m};
-            db[key] = v;
-            // db[key].push_back(m);
+            db[key].push_back(m);
         }
     }
 
-protected:
-    std::map<std::string, std::vector<std::any>> db;
+    void dump(std::string filename)
+
+// protected:
+    std::map<std::string, std::vector<std::any>> db;  // issues w/std::any?
 };
 
 int main(){
     BagIt bag;
 
-    for (int i=0; i<100; i++) {
-        vec_t a(i/10,200,-i);
-        cout << ">> i: " << i << endl;
+    for (int i=0; i<10; i++) {
+        vec_t a(double(i)/10,200,-i);
         bag.push<vec_t>("hi", a);
+
+        quaternion_t q(1,2,3,4);
+        bag.push<quaternion_t>("ho", q);
+    }
+
+    for (const auto& [k,v]: bag.db) {
+        cout << k << endl;
+        if (k == "hi") for (const auto& m: v) cout << any_cast<vec_t>(m) <<endl;
+        else for (const auto& m: v) cout << any_cast<quaternion_t>(m) <<endl;
     }
 
     return 0;
