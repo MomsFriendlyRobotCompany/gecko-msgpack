@@ -24,6 +24,8 @@ message(STATUS "-------------------------------------")
 if(1)
     link_directories(${PROJECT_SOURCE_DIR}/../gecko/build)
     include_directories(${PROJECT_SOURCE_DIR}/../gecko/src)
+    link_directories(${PROJECT_SOURCE_DIR}/../gecko/build/extlibs/marko)
+    include_directories(${PROJECT_SOURCE_DIR}/../gecko/extlibs/marko/lib/include)
 endif()
 
 include_directories(.)
